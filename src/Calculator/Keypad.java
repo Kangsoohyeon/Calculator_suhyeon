@@ -30,7 +30,7 @@ class Keypad implements ActionListener
 
 	private String result = "";
 
-	ArrayList<Integer> ee = new ArrayList<Integer>();
+	ArrayList<Double> num = new ArrayList<Double>();
 
 	ArrayList<String> store = new ArrayList<String>();
 
@@ -118,7 +118,7 @@ class Keypad implements ActionListener
 
 				textfield1.getText();
 
-				ee.add(Integer.parseInt(first));
+				num.add(Double.parseDouble(first));
 
 				first = "";
 
@@ -127,11 +127,11 @@ class Keypad implements ActionListener
 
 			if (str == "=") {
 
-				int sum = 0;
+				double sum = 0.0;
 
-				sum = ee.get(0);
+				sum = num.get(0);
 
-				for (int a = 0, h = 1; a < ee.size(); a++, h++) {
+				for (int a = 0, h = 1; a < num.size(); a++, h++) {
 
 					int ve = store.size();
 
@@ -141,21 +141,21 @@ class Keypad implements ActionListener
 
 						if (store.get(a) == "+") {
 
-							sum = sum + ee.get(h);
+							sum = sum + num.get(h);
 
 						} else if (store.get(a) == "-") {
 
-							sum = sum - ee.get(h);
+							sum = sum - num.get(h);
 
 						} else if (store.get(a) == "*") {
 
-							sum = sum * ee.get(h);
+							sum = sum * num.get(h);
 
 						} else if (store.get(a) == "/") {
 
 							try {
 
-								sum = sum / ee.get(h);
+								sum = sum / num.get(h);
 
 							} catch (Exception exc) {
 
@@ -189,7 +189,7 @@ class Keypad implements ActionListener
 
 				textfield1.getText();
 
-				ee.clear();
+				num.clear();
 
 				store.clear();
 
