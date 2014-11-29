@@ -9,6 +9,7 @@ import java.awt.Panel;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -21,10 +22,11 @@ public class Keypad extends Frame implements ActionListener {
 	public Keypad(){
 		setTitle("°è»ê±â");
 		display = new TextField();
-		add(display,"NORTH");
-		add(buildKeypanel(),"CENTER");
+		add(display,"North");
+		add(buildKeypanel(),"Center");
 		
-		
+		setSize(300,400);
+		setVisible(true);
 		
 		
 		
@@ -43,47 +45,47 @@ public class Keypad extends Frame implements ActionListener {
 		Panel panel = new Panel();
 		
 		panel.setLayout(new GridLayout(6,5));
-		panel.add(new Button ("MC"));
-		panel.add(new Button("MC"));
-		panel.add(new Button("MR"));
-		panel.add(new Button("MS"));
-		panel.add(new Button("M+"));
-		panel.add(new Button("M-"));
+		panel.add(new keyButton ("MC"));
+		panel.add(new keyButton("MC"));
+		panel.add(new keyButton("MR"));
+		panel.add(new keyButton("MS"));
+		panel.add(new keyButton("M+"));
+		panel.add(new keyButton("M-"));
 		
-		panel.add(new Button("¡ç"));
-		panel.add(new Button("CE"));
-		panel.add( new Button("C"));
-		panel.add( new Button("¡¾"));
-		panel.add( new Button("¡î"));
-		
-		
-		panel.add( new Button("7"));
-		panel.add( new Button("8"));
-		panel.add(new Button("9"));
-		panel.add(new Button("/"));
-		panel.add(new Button("%"));
+		panel.add(new keyButton("¡ç"));
+		panel.add(new keyButton("CE"));
+		panel.add( new keyButton("C"));
+		panel.add( new keyButton("¡¾"));
+		panel.add( new keyButton("¡î"));
 		
 		
-		panel.add(new Button("4"));
-	    panel.add( new Button("5"));
-		panel.add( new Button("6"));
-		panel.add(new Button("*"));
-		panel.add(new Button("1/x"));
+		panel.add( new keyButton("7"));
+		panel.add( new keyButton("8"));
+		panel.add(new keyButton("9"));
+		panel.add(new keyButton("/"));
+		panel.add(new keyButton("%"));
 		
 		
-		panel.add( new Button("1"));
-		panel.add (new Button("2"));
-		panel.add( new Button("3"));
-		panel.add( new Button("-"));
-		panel.add( new Button("="));
+		panel.add(new keyButton("4"));
+	    panel.add( new keyButton("5"));
+		panel.add( new keyButton("6"));
+		panel.add(new keyButton("*"));
+		panel.add(new keyButton("1/x"));
 		
 		
+		panel.add( new keyButton("1"));
+		panel.add (new keyButton("2"));
+		panel.add( new keyButton("3"));
+		panel.add( new keyButton("-"));
+		panel.add( new keyButton("="));
 		
 		
 		
-		panel.add( new Button("0"));
-		panel.add(new Button("."));
-		panel.add(new Button("+"));
+		
+		
+		panel.add( new keyButton("0"));
+		panel.add(new keyButton("."));
+		panel.add(new keyButton("+"));
        
         
 		
@@ -95,11 +97,29 @@ public class Keypad extends Frame implements ActionListener {
 }
 
 
+		class keyButton extends Button {
+			
+			public keyButton(String label) {
+				super(label);
+				addActionListener(Keypad.this);
+			}
+
+			
+		
+
+		}
 
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() instanceof Button){
+				Button btn = (Button)e.getSource();
+				display.setText(display.getText()+btn.getLabel());
+				
+			}
 			
 		}
+		
+		
+
 }
