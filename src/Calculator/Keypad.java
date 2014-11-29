@@ -16,17 +16,17 @@ import java.util.ArrayList;
 public class Keypad extends Frame implements ActionListener {
 
 	TextField textfield;
-	private String first = ""; 
+	private String first = "";
 
-	private String result = ""; 
+	private String result = "";
 
 	ArrayList<Double> ee = new ArrayList<Double>();
 
-	ArrayList<String> store = new ArrayList<String>(); 
+	ArrayList<String> store = new ArrayList<String>();
 
 	public Keypad() {
 		setTitle("계산기");
-		textfield = new TextField("");
+		textfield = new TextField("0");
 		add(textfield, "North");
 		add(buildKeypanel(), "Center");
 
@@ -40,7 +40,7 @@ public class Keypad extends Frame implements ActionListener {
 		});
 	}
 
-	private Panel buildKeypanel() {
+	public Panel buildKeypanel() {
 
 		Panel panel = new Panel();
 
@@ -95,32 +95,111 @@ public class Keypad extends Frame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
+		String str = e.getActionCommand();
+		String read;
 		
-	   String str = e.getActionCommand();
-	   String read;
-	   
-		   
-	   
-	   if(str=="1" && str=="2" && str=="3" && str=="4" && str=="5" && str=="6" && str=="7" 
-			   && str=="8" && str=="9" && str=="0"){
-		   textfield.setText(first);
-		   textfield.getText();
-		   textfield.setText("");
-		   textfield.getText();
-		   read=textfield.getText();
-		   first=read+str;
-		   textfield.setText(first);
-		   textfield.getText();
-		   
-		   
-		   
-	   }  
-	   
-	
+
+		//try{
+		if (str != "/" && str != "*" && str != "-" && str != "+" && str != "C"
+				&& str != "=" && str != "MR" && str != "MC" && str != "MS"
+				&& str != "M+" && str != "M-") {
+			textfield.setText(first);
+			textfield.getText();
+			textfield.setText("");
+			textfield.getText();
+			read = textfield.getText();
+			first = read + str;
+			textfield.setText(first);
+			textfield.getText();
+
+		}
+
+		if (str == "+" || str == "-" || str == "*" || str == "/" || str == "MS"
+				|| str == "MR" || str == "MC" || str == "M+" || str == "M-") {
+			textfield.setText(str); // 연산자 기호 저장
+
+			textfield.getText(); // 연산자 기호 출력
+
+			ee.add(Double.parseDouble(first)); // 연산하려는 값 하나씩 ArrayList에 저장
+
+			first = ""; // 다시 누적하도록 초기화
+
+			store.add(str); // 연산자 ArrayList에 저장
+
+		}
+
+		if (str == "=") {
+
+			Double sum = 0.0;
+
+			sum = ee.get(0);
+
+			for (int a = 0, h = 1; a < ee.size(); a++, h++) {
+				int ss = store.size();
+				if (ss > 0) {
+
+					ss--;
+
+					if (store.get(a) == "+") {
+
+						sum = sum + ee.get(h);
+
+					} else if (store.get(a) == "-") {
+
+						sum = sum - ee.get(h);
+
+					} else if (store.get(a) == "*") {
+
+						sum = sum * ee.get(h);
+
+					} else if (store.get(a) == "/") {
+
+						try {
+
+							sum = sum / ee.get(h);
+
+						} catch (Exception exc) {
+
+							sum = 0.0;
+
+						}
+
+					}
+
+				}
+
+			}
+
+			result = sum + "";
+
+			textfield.setText(result);
+
+			textfield.getText();
+
+		}
+
+		if (str == "C" || str == "CE") {
+
+			first = "";
+
+			textfield.setText("0");
+
+			textfield.getText();
+
+			ee.clear();
+
+			store.clear();
+
+		}
+		//}
+//		 catch (Exception ex) {
+//
+//				textfield.setText("오류"); // 텍스트창 내용 전부 지우기
+//
+//				textfield.getText();
+//
+//			}
 
 	}
-	
-	
-
 }
-
