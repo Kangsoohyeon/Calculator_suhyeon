@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class Keypad extends Frame implements ActionListener {
 
 	TextField textfield;
+	TextField textfield2;
 	private String first = "";
 
 	private String result = "";
@@ -25,9 +26,12 @@ public class Keypad extends Frame implements ActionListener {
 	ArrayList<String> store = new ArrayList<String>();
 
 	public Keypad() {
+		
 		setTitle("계산기");
 		textfield = new TextField("0");
-		add(textfield, "North");
+		
+		add(textfield2, "North");
+		add(textfield,"Center");
 		add(buildKeypanel(), "Center");
 
 		setSize(300, 400);
@@ -43,6 +47,7 @@ public class Keypad extends Frame implements ActionListener {
 	public Panel buildKeypanel() {
 
 		Panel panel = new Panel();
+		
 
 		panel.setLayout(new GridLayout(6, 5));
 
@@ -100,14 +105,14 @@ public class Keypad extends Frame implements ActionListener {
 		String read;
 		
 
-		//try{
+		try{
 		if (str != "/" && str != "*" && str != "-" && str != "+" && str != "C"
 				&& str != "=" && str != "MR" && str != "MC" && str != "MS"
 				&& str != "M+" && str != "M-") {
 			textfield.setText(first);
 			textfield.getText();
-			textfield.setText("");
-			textfield.getText();
+			textfield2.setText("");
+			textfield2.getText();
 			read = textfield.getText();
 			first = read + str;
 			textfield.setText(first);
@@ -117,9 +122,9 @@ public class Keypad extends Frame implements ActionListener {
 
 		if (str == "+" || str == "-" || str == "*" || str == "/" || str == "MS"
 				|| str == "MR" || str == "MC" || str == "M+" || str == "M-") {
-			textfield.setText(str); // 연산자 기호 저장
+			textfield2.setText(str); // 연산자 기호 저장
 
-			textfield.getText(); // 연산자 기호 출력
+			textfield2.getText(); // 연산자 기호 출력
 
 			ee.add(Double.parseDouble(first)); // 연산하려는 값 하나씩 ArrayList에 저장
 
@@ -186,20 +191,24 @@ public class Keypad extends Frame implements ActionListener {
 			textfield.setText("0");
 
 			textfield.getText();
+			
+			textfield2.setText("");
+			
+			textfield2.getText();
 
 			ee.clear();
 
 			store.clear();
 
 		}
-		//}
-//		 catch (Exception ex) {
-//
-//				textfield.setText("오류"); // 텍스트창 내용 전부 지우기
-//
-//				textfield.getText();
-//
-//			}
+		}
+		 catch (Exception ex) {
+
+				textfield.setText("오류"); // 텍스트창 내용 전부 지우기
+
+				textfield.getText();
+
+			}
 
 	}
 }
