@@ -1,172 +1,167 @@
 package Calculator;
 
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.Panel;
-import java.awt.TextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
+import javax.swing.*;
 
-public class Keypad extends Frame implements ActionListener {
+import java.awt.*;
 
-	TextField textfield;
+import java.awt.event.*;
+
+import java.util.*;
+
+class Keypad implements ActionListener
+
+{
+
+	Frame frame;
+	TextField textfield1;
 	TextField textfield2;
+
+	Panel panel1;
+	Panel panel2;
+
+	GridLayout grid;
+
+	Button Button;
+
+	String[] strGrid = { "MS", "MR", "MS", "M+", "M-", "7", "8", "9", "/", "4",
+			"5", "6", "*", "1", "2", "3", "-", "0", "C", "+", "=" };
+
 	private String first = "";
 
 	private String result = "";
 
-	ArrayList<Double> ee = new ArrayList<Double>();
+	ArrayList<Integer> ee = new ArrayList<Integer>();
 
 	ArrayList<String> store = new ArrayList<String>();
 
 	public Keypad() {
-		
-		setTitle("계산기");
-		textfield = new TextField("0");
-		
-		add(textfield2, "North");
-		add(textfield,"Center");
-		add(buildKeypanel(), "Center");
 
-		setSize(300, 400);
-		setVisible(true);
+		frame = new JFrame("계산기");
 
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
-	}
+		panel1 = new Panel();
 
-	public Panel buildKeypanel() {
+		panel2 = new Panel();
 
-		Panel panel = new Panel();
-		
+		textfield2 = new TextField("0");
 
-		panel.setLayout(new GridLayout(6, 5));
-
-		panel.add(new keyButton("MC"));
-		panel.add(new keyButton("MR"));
-		panel.add(new keyButton("MS"));
-		panel.add(new keyButton("M+"));
-		panel.add(new keyButton("M-"));
-
-		panel.add(new keyButton("←"));
-		panel.add(new keyButton("CE"));
-		panel.add(new keyButton("C"));
-		panel.add(new keyButton("±"));
-		panel.add(new keyButton("√"));
-
-		panel.add(new keyButton("7"));
-		panel.add(new keyButton("8"));
-		panel.add(new keyButton("9"));
-		panel.add(new keyButton("/"));
-		panel.add(new keyButton("%"));
-
-		panel.add(new keyButton("4"));
-		panel.add(new keyButton("5"));
-		panel.add(new keyButton("6"));
-		panel.add(new keyButton("*"));
-		panel.add(new keyButton("1/x"));
-
-		panel.add(new keyButton("1"));
-		panel.add(new keyButton("2"));
-		panel.add(new keyButton("3"));
-		panel.add(new keyButton("-"));
-		panel.add(new keyButton("="));
-
-		panel.add(new keyButton("0"));
-		panel.add(new keyButton("."));
-		panel.add(new keyButton("+"));
-
-		return panel;
+		textfield1 = new TextField("");
 
 	}
 
-	class keyButton extends Button {
+	public void calBut() {
 
-		public keyButton(String label) {
-			super(label);
-			addActionListener(Keypad.this);
+		panel2.setLayout(new BorderLayout());
+
+		panel2.add(BorderLayout.NORTH, textfield1);
+		panel2.add(BorderLayout.CENTER, textfield2);
+
+		panel1.setLayout(new GridLayout(6, 5, 6, 6));
+
+		for (int i = 0; i < strGrid.length; i++) {
+
+			Button = new Button(strGrid[i]);
+
+			Button.addActionListener(this);
+
+			Button.setBackground(new Color(241, 244, 249));
+
+			panel1.add(Button);
+
 		}
 
+		frame.add(BorderLayout.NORTH, panel2);
+
+		frame.add(BorderLayout.CENTER, panel1);
+
+		frame.setResizable(false);
+
+		frame.setSize(220, 310);
+
+		frame.setVisible(true);
+
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		String str = e.getActionCommand();
+
 		String read;
-		
 
-		try{
-		if (str != "/" && str != "*" && str != "-" && str != "+" && str != "C"
-				&& str != "=" && str != "MR" && str != "MC" && str != "MS"
-				&& str != "M+" && str != "M-") {
-			textfield.setText(first);
-			textfield.getText();
-			textfield2.setText("");
-			textfield2.getText();
-			read = textfield.getText();
-			first = read + str;
-			textfield.setText(first);
-			textfield.getText();
+		try {
 
-		}
+			if (str != "/" && str != "*" && str != "-" && str != "+"
+					&& str != "C" && str != "=" && str != "MS" && str != "MR"
+					&& str != "MC" && str != "M+" && str != "M-") {
 
-		if (str == "+" || str == "-" || str == "*" || str == "/" || str == "MS"
-				|| str == "MR" || str == "MC" || str == "M+" || str == "M-") {
-			textfield2.setText(str); // 연산자 기호 저장
+				textfield2.setText(first);
 
-			textfield2.getText(); // 연산자 기호 출력
+				textfield2.getText();
 
-			ee.add(Double.parseDouble(first)); // 연산하려는 값 하나씩 ArrayList에 저장
+				textfield1.setText("");
 
-			first = ""; // 다시 누적하도록 초기화
+				textfield1.getText();
 
-			store.add(str); // 연산자 ArrayList에 저장
+				read = textfield2.getText();
 
-		}
+				first = read + str;
 
-		if (str == "=") {
+				textfield2.setText(first);
 
-			Double sum = 0.0;
+				textfield2.getText();
 
-			sum = ee.get(0);
+			}
 
-			for (int a = 0, h = 1; a < ee.size(); a++, h++) {
-				int ss = store.size();
-				if (ss > 0) {
+			if (str == "/" || str == "*" || str == "-" || str == "+"
+					|| str == "=") {
 
-					ss--;
+				textfield1.setText(str);
 
-					if (store.get(a) == "+") {
+				textfield1.getText();
 
-						sum = sum + ee.get(h);
+				ee.add(Integer.parseInt(first));
 
-					} else if (store.get(a) == "-") {
+				first = "";
 
-						sum = sum - ee.get(h);
+				store.add(str);
+			}
 
-					} else if (store.get(a) == "*") {
+			if (str == "=") {
 
-						sum = sum * ee.get(h);
+				int sum = 0;
 
-					} else if (store.get(a) == "/") {
+				sum = ee.get(0);
 
-						try {
+				for (int a = 0, h = 1; a < ee.size(); a++, h++) {
 
-							sum = sum / ee.get(h);
+					int ve = store.size();
 
-						} catch (Exception exc) {
+					if (ve > 0) {
 
-							sum = 0.0;
+						ve--;
+
+						if (store.get(a) == "+") {
+
+							sum = sum + ee.get(h);
+
+						} else if (store.get(a) == "-") {
+
+							sum = sum - ee.get(h);
+
+						} else if (store.get(a) == "*") {
+
+							sum = sum * ee.get(h);
+
+						} else if (store.get(a) == "/") {
+
+							try {
+
+								sum = sum / ee.get(h);
+
+							} catch (Exception exc) {
+
+								sum = 0;
+
+							}
 
 						}
 
@@ -174,41 +169,50 @@ public class Keypad extends Frame implements ActionListener {
 
 				}
 
+				result = sum + "";
+
+				textfield2.setText(result);
+
+				textfield2.getText();
+
 			}
 
-			result = sum + "";
+			if (str == "C") {
 
-			textfield.setText(result);
+				first = "";
 
-			textfield.getText();
+				textfield2.setText("0");
 
-		}
+				textfield2.getText();
 
-		if (str == "C" || str == "CE") {
+				textfield1.setText("");
 
-			first = "";
+				textfield1.getText();
 
-			textfield.setText("0");
+				ee.clear();
 
-			textfield.getText();
-			
-			textfield2.setText("");
-			
+				store.clear();
+
+			}
+
+		} catch (Exception ex) {
+
+			textfield2.setText("Error 다시입력 C클릭.");
+
 			textfield2.getText();
 
-			ee.clear();
-
-			store.clear();
-
 		}
-		}
-		 catch (Exception ex) {
-
-				textfield.setText("오류"); // 텍스트창 내용 전부 지우기
-
-				textfield.getText();
-
-			}
 
 	}
+
+	public static void main(String[] args)
+
+	{
+
+		Keypad KP = new Keypad();
+
+		KP.calBut();
+
+	}
+
 }
